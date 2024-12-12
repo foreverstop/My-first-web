@@ -1,0 +1,274 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.header {
+    background-color: #47dbe8;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    background-image: url('../image/遥感.png');
+    background-size: 25%;
+    background-position: 10%;
+    background-repeat: no-repeat;
+}
+
+.nav {
+    background-color: #082e79;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-button {
+    background-color: #47dbe8;
+    /* 按钮背景色 */
+    color: #fff;
+    /* 按钮文字颜色 */
+    border: none;
+    /* 边框设置为无 */
+    padding: 10px 20px;
+    /* 内边距 */
+    margin: 5px;
+    /* 外边距 */
+    cursor: pointer;
+    /* 鼠标悬停时的指针样式 */
+    transition: background-color 0.3s;
+    /* 添加过渡效果 */
+    border-radius: 5px;
+    /* 圆角边框 */
+}
+
+.nav-button:hover {
+    background-color: #23d372;
+    /* 鼠标悬停时的背景色 */
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.left,
+.right {
+    background-color: #fff;
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.left {
+    max-width: 70%;
+}
+
+.right {
+    max-width: 25%;
+}
+
+.footer {
+    text-align: center;
+    background-color: #ccc;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.feature-box {
+    border: 2px solid #47dbe8;
+    /* 设置边框颜色 */
+    border-radius: 5px;
+    /* 设置圆角 */
+    padding: 15px;
+    /* 设置内边距 */
+    background-color: #fff;
+    /* 设置背景色 */
+    margin-bottom: 20px;
+    /* 设置下外边距，分隔不同功能 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* 添加阴影效果 */
+}
+
+.comment-section textarea {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: calc(100% - 20px);
+    /* 调整宽度以避免超出 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* 确保内边距和边框包含在总宽度和高度内 */
+}
+
+#mapDiv {
+    width: 100%;
+    height: 600px;
+}
+
+.image-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9e9e9;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    margin: 5px 0;
+    max-height: 50px;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: #000;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+}
+
+.quantity-controls input {
+    width: 40px;
+    text-align: center;
+}
+
+.even-row {
+    background-color: #eb8787;
+    /* 偶数行的背景色 */
+}
+
+.odd-row {
+    background-color: #8ce5b4;
+    /* 奇数行的背景色 */
+}
+
+.map-custom-control {
+    background-color: #fff;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    margin: 10px;
+    padding: 6px 10px;
+    position: absolute;
+    left: 10px;
+    top: 80px;
+    z-index: 1000;
+    /* 提高 z-index */
+}
+
+.map-custom-control.active {
+    background-color: #47dbe8;
+    /* 点击后改变的背景颜色 */
+    color: white;
+    /* 点击后的文字颜色 */
+}
+
+.map-custom-control.clear-button {
+    background-color: #fff;
+    /* 默认背景色 */
+}
+
+.map-custom-control.clear-button:hover {
+    background-color: #a3d6df;
+    /* 鼠标悬停时的背景色 */
+}
+
+#thematicCanvas {
+    display: none;
+    /* 默认隐藏，点击按钮后显示 */
+    margin-top: 20px;
+    /* 增加上外边距 */
+}
+
+/* 添加行政区域查询图片的样式 */
+.query-icon {
+    vertical-align: middle; /* 使图片与文字垂直居中对齐 */
+    margin-left: 10px; /* 设置图片与文字之间的间距 */
+    width: 30px; /* 设置图片宽度 */
+    height: 24px; /* 设置图片高度 */
+}
+
+/* 添加话题文章图片的样式 */
+.topic-icon {
+    vertical-align: middle; /* 使图片与文字垂直居中对齐 */
+    margin-left: 10px; /* 设置图片与文字之间的间距 */
+    width: 24px; /* 设置图片宽度 */
+    height: 24px; /* 设置图片高度 */
+}
+
+/* 添加地图显示栏图片的样式 */
+.map-icon {
+    vertical-align: middle; /* 使图片与文字垂直居中对齐 */
+    margin-left: 10px; /* 设置图片与文字之间的间距 */
+    width: 36px; /* 设置图片宽度 */
+    height: 24px; /* 设置图片高度 */
+}
+
+/* 添加话题讨论图片的样式 */
+.discussion-icon {
+    vertical-align: middle; /* 使图片与文字垂直居中对齐 */
+    margin-left: 10px; /* 设置图片与文字之间的间距 */
+    width: 24px; /* 设置图片宽度 */
+    height: 24px; /* 设置图片高度 */
+}
+
+/* 添加阿磊的GIS小站图片的样式 */
+.site-icon {
+    vertical-align: middle; /* 使图片与文字垂直居中对齐 */
+    margin-right: 10px; /* 设置图片与文字之间的间距 */
+    width: 40px; /* 设置图片宽度 */
+    height: 40px; /* 设置图片高度 */
+}

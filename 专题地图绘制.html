@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专题地图绘制</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #china_map {
+            width: 900px;
+            height: 500px;
+        }
+
+        #gdp_chart_container {
+            width: 900px;
+            height: 500px;
+            overflow-x: auto;
+            /* 添加水平滚动条 */
+            overflow-y: hidden;
+        }
+
+        #gdp_chart {
+            width: 1800px;
+            /* 增加画布宽度 */
+            height: 500px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #hubei_map {
+            width: 900px;
+            height: 450px;
+            margin-top: 20px;
+        }
+
+        .hubei-container {
+            display: flex;
+            /* 使用flex布局 */
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        #air_quality_chart_container {
+            width: 900px;
+            height: 450px;
+            margin-top: 20px;
+        }
+
+        #air_quality_chart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 添加标题 -->
+    <div class="title">中国各省GDP地图与图表可视化</div>
+
+    <div class="container">
+        <div id="china_map"></div>
+        <div id="gdp_chart_container" style="height: 500px; overflow-y: auto;">
+            <canvas id="gdp_chart" width="1200" height="600"></canvas>
+        </div>
+    </div>
+
+    <div style="height: 80px;"></div> <!-- 可以调整此高度以增加间距 -->
+    <!-- 添加湖北省空气质量地图标题 -->
+    <div class="title">湖北省各市空气质量地图与图表可视化</div>
+
+    <!-- 添加湖北省地图容器 -->
+    <div class="hubei-container">
+        <div id="hubei_map" style="flex: 1;"></div>
+        <div id="air_quality_chart_container" style="flex: 1;">
+            <canvas id="air_quality_chart" width="600" height="400"></canvas>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/china.js"></script>
+    <script type="text/javascript" src="js/hubei.js"></script> <!-- 引入hubei.js -->
+    <script>
+        // 初始化ECharts实例
+        var china_map = echarts.init(document.getElementById("china_map"), 'infographic');
+
+        // 实际的各省GDP数据（示例数据，请替换为真实数据）
+        var gdpData = [
+            { name: '北京', value: 36102.6 }, { name: '天津', value: 14083.7 },
+            { name: '上海', value: 38700.6 }, { name: '重庆', value: 25002.8 },
+            { name: '河北', value: 36010.3 }, { name: '河南', value: 54997.1 },
+            { name: '云南', value: 23223.7 }, { name: '辽宁', value: 24900.5 },
+            { name: '黑龙江', value: 13612.7 }, { name: '湖南', value: 41781.5 },
+            { name: '安徽', value: 38680.6 }, { name: '山东', value: 73129.0 },
+            { name: '新疆', value: 13797.6 }, { name: '江苏', value: 99631.5 },
+            { name: '浙江', value: 62351.7 }, { name: '江西', value: 25691.6 },
+            { name: '湖北', value: 43443.4 }, { name: '广西', value: 22156.7 },
+            { name: '甘肃', value: 9016.7 }, { name: '山西', value: 17685.7 },
+            { name: '内蒙古', value: 17359.8 }, { name: '陕西', value: 26181.9 },
+            { name: '吉林', value: 12311.3 }, { name: '福建', value: 43903.9 },
+            { name: '贵州', value: 17826.5 }, { name: '广东', value: 110760.9 },
+            { name: '青海', value: 3005.9 }, { name: '西藏', value: 1902.7 },
+            { name: '四川', value: 48598.8 }, { name: '宁夏', value: 3920.5 },
+            { name: '海南', value: 5308.9 }, { name: '台湾', value: 49800.0 },
+            { name: '香港', value: 28400.0 }, { name: '澳门', value: 2040.0 }
+        ];
+
+        // 配置ECharts选项
+        var option = {
+            title: {
+                text: '全国各省GDP对比',
+                textStyle: { color: '#fff' },
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            visualMap: {
+                show: true,
+                x: 'left',
+                y: 'bottom',
+                splitList: [
+                    { start: 100000 },
+                    { start: 80000, end: 100000 },
+                    { start: 60000, end: 80000 },
+                    { start: 40000, end: 60000 },
+                    { start: 20000, end: 40000 },
+                    { start: 10000, end: 20000 },
+                    { start: 0, end: 10000 }
+                ],
+                color: ['#5bc2e7', '#6980c5', '#70dfdf', '#90EE90', '#3390FF', '#FFD700', '#FF6347']
+            },
+            series: [{
+                name: '全国各省GDP对比',
+                type: 'map',
+                mapType: 'china',
+                roam: false,
+                label: {
+                    normal: {
+                        show: true
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                data: gdpData
+            }]
+        };
+
+        // 设置ECharts选项
+        china_map.setOption(option);
+
+        // 初始化Canvas
+        var canvas = document.getElementById('gdp_chart');
+        var ctx = canvas.getContext('2d');
+
+        // 设置画布的宽度和高度
+        canvas.width = 1200;  // 增加宽度
+        canvas.height = 600;  // 增加高度
+
+        // 根据数据条目数量更新canvas高度
+        function updateCanvasHeight(data) {
+            canvas.height = data.length < 10 ? 300 : 600; // 根据数据条目数量调整高度
+        }
+
+        // 绘制动态柱状图
+        function drawBarChart(data, animate = false) {
+            updateCanvasHeight(data); // 更新画布高度
+            var maxValue = Math.max(...data.map(item => item.value));
+            var gap = 10; // 设置柱子之间的间隔
+            var barWidth = (canvas.width / data.length) - gap; // 根据间隔调整柱子宽度
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = 'bold 12px Roboto'; // 调整字体大小为12px
+
+            // 动画绘制柱子
+            let currentHeights = new Array(data.length).fill(0); // 当前高度数组
+            let targetHeights = data.map(item => (item.value / maxValue) * (canvas.height - 80)); // 目标高度
+
+            if (animate) {
+                // 首次加载时的动画
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+
+                    targetHeights.forEach((targetHeight, index) => {
+                        if (currentHeights[index] < targetHeight) {
+                            currentHeights[index] += (targetHeight - currentHeights[index]) * 0.05; // 逐渐靠近目标高度
+                            if (currentHeights[index] > targetHeight) {
+                                currentHeights[index] = targetHeight; // 确保不超过目标高度
+                            }
+                        }
+
+                        var x = index * (barWidth + gap); // X坐标
+                        var y = canvas.height - currentHeights[index]; // Y坐标
+
+                        ctx.fillStyle = '#3390FF'; // 设置柱子的颜色
+                        ctx.fillRect(x, y, barWidth - 2, currentHeights[index]); // 绘制柱子
+
+                        ctx.fillStyle = '#000'; // 字体颜色
+                        ctx.fillText(data[index].name, x, y - 5); // 省份名称
+                        ctx.fillText((data[index].value / 10000).toFixed(2), x, y - 20); // GDP值
+                    });
+
+                    if (currentHeights.some((height, index) => height < targetHeights[index])) {
+                        requestAnimationFrame(animate); // 如果还有柱子未达到目标高度，继续动画
+                    }
+                }
+
+                animate(); // 开始动画
+            } else {
+                // 如果不需要动画，直接绘制
+                targetHeights.forEach((targetHeight, index) => {
+                    currentHeights[index] = targetHeight; // 将当前高度更新为目标高度
+
+                    var x = index * (barWidth + gap); // X坐标
+                    var y = canvas.height - targetHeight; // Y坐标
+
+                    ctx.fillStyle = '#3390FF'; // 设置柱子的颜色
+                    ctx.fillRect(x, y, barWidth - 2, targetHeight); // 绘制柱子
+
+                    ctx.fillStyle = '#000'; // 字体颜色
+                    ctx.fillText(data[index].name, x, y); // 省份名称
+                    ctx.fillText((data[index].value / 10000).toFixed(2) + '万', x - 10, y - 15); // GDP值
+                });
+            }
+        }
+
+        // 动态更新柱状图
+        setInterval(() => {
+            gdpData.forEach(item => {
+                item.value += Math.random() * 1000 - 500; // 随机增加或减少GDP值
+                item.value = Math.max(0, item.value); // 确保GDP值不为负
+            });
+
+            // 重新计算目标高度
+            var maxValue = Math.max(...gdpData.map(item => item.value));
+            var targetHeights = gdpData.map(item => (item.value / maxValue) * (canvas.height - 80));
+            drawBarChart(gdpData, false); // 直接绘制更新后的柱状图
+        }, 2000); // 每3秒更新一次
+
+        // 初始绘制，带有拉伸动画
+        drawBarChart(gdpData, true);
+
+        // 初始化湖北省地图
+        var hubei_map = echarts.init(document.getElementById("hubei_map"), 'infographic');
+
+        // 配置湖北省地图选项
+        var hubeiOption = {
+            title: {
+                text: '湖北省各市空气质量',
+                textStyle: { color: '#fff' },
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            visualMap: {
+                show: true,
+                x: 'left',
+                y: 'bottom',
+                splitList: [
+                    { start: 150, end: 200 },
+                    { start: 100, end: 150 },
+                    { start: 50, end: 100 },
+                    { start: 20, end: 50 },
+                    { start: 0, end: 20 }
+                ],
+                color: ['#FF0000', '#FFA500', '#00FF00', '#00CED1', '#1E90FF']
+            },
+            series: [{
+                name: '湖北省各市空气质量',
+                type: 'map',
+                mapType: '湖北',
+                roam: false,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside', // 设置为内部显示
+                        textStyle: {
+                            color: '#000', // 字体颜色
+                            fontSize: 12 // 字体大小
+                        },
+                        offset: [0, 0] // 设置为0以居中显示
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                data: [
+                    { name: '武汉市', value: 80 },
+                    { name: '黄石市', value: 90 },
+                    { name: '十堰市', value: 125 },
+                    { name: '宜昌市', value: 58 },
+                    { name: '襄阳市', value: 67 },
+                    { name: '鄂州市', value: 45 },
+                    { name: '荆门市', value: 58 },
+                    { name: '孝感市', value: 25 },
+                    { name: '荆州市', value: 14 },
+                    { name: '黄冈市', value: 94 },
+                    { name: '咸宁市', value: 119 },
+                    { name: '随州市', value: 149 },
+                    { name: '恩施土家族苗族自治州', value: 130 },
+                    { name: '仙桃市', value: 187 },
+                    { name: '潜江市', value: 196 },
+                    { name: '天门市', value: 162 },
+                    { name: '神农架林区', value: 17 }
+                ]
+            }]
+        };
+
+        // 设置湖北省地图选项
+        hubei_map.setOption(hubeiOption);
+
+        // 获取空气质量图表的 Canvas
+        var airQualityCanvas = document.getElementById('air_quality_chart');
+        var aqCtx = airQualityCanvas.getContext('2d');
+
+        // 绘制折线图
+        function drawAirQualityLineChart(data) {
+            var canvasWidth = airQualityCanvas.width;
+            var canvasHeight = airQualityCanvas.height;
+            aqCtx.clearRect(0, 0, canvasWidth, canvasHeight); // 清空画布
+
+            // 绘制坐标轴
+            var padding = 40;
+            aqCtx.beginPath();
+            aqCtx.moveTo(padding, canvasHeight - padding); // X轴
+            aqCtx.lineTo(canvasWidth - padding, canvasHeight - padding);
+            aqCtx.moveTo(padding, canvasHeight - padding); // Y轴
+            aqCtx.lineTo(padding, padding);
+            aqCtx.strokeStyle = '#000';
+            aqCtx.stroke();
+
+            // 计算数据比例和间隔
+            var xInterval = (canvasWidth - 2 * padding) / (data.length - 1);
+            var maxValue = Math.max(...data.map(item => item.value));
+
+            // 动画绘制折线
+            var points = data.map((item, index) => {
+                var x = padding + index * xInterval;
+                var y = canvasHeight - padding - (item.value / maxValue) * (canvasHeight - 2 * padding);
+                return { x: x, y: y };
+            });
+
+            var currentIndex = 0;
+
+            function animate() {
+                if (currentIndex < points.length) {
+                    aqCtx.beginPath();
+                    aqCtx.moveTo(points[0].x, points[0].y);
+
+                    for (var i = 0; i <= currentIndex; i++) {
+                        aqCtx.lineTo(points[i].x, points[i].y);
+                    }
+
+                    aqCtx.strokeStyle = '#3390FF'; // 设置折线颜色
+                    aqCtx.stroke();
+
+                    currentIndex++;
+                    setTimeout(animate, 200); // 增加每次绘制的间隔时间，调整为100毫秒
+                }
+            }
+
+            animate();
+
+            // 绘制数据点和标签
+            data.forEach((item, index) => {
+                var x = padding + index * xInterval;
+                var y = canvasHeight - padding - (item.value / maxValue) * (canvasHeight - 2 * padding);
+                aqCtx.beginPath();
+                aqCtx.arc(x, y, 5, 0, Math.PI * 2); // 绘制圆点
+                aqCtx.fillStyle = '#3390FF';
+                aqCtx.fill();
+                aqCtx.fillText(item.value, x + 5, y); // 标注数据值
+                aqCtx.fillText(item.name, x + 5, y + 15); // 标注城市名
+            });
+        }
+
+        // 绘制初始折线图
+        drawAirQualityLineChart(hubeiOption.series[0].data);
+
+    </script>
+</body>
+
+</html>
